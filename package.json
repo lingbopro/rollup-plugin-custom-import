@@ -1,0 +1,52 @@
+{
+  "name": "rollup-plugin-custom-import",
+  "version": "0.1.0",
+  "description": "Customize the content of the imported module - not just the text",
+  "main": "./dist/index.cjs.js",
+  "module": "./dist/index.esm.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "require": "./dist/index.cjs.js",
+    "import": "./dist/index.esm.js",
+    "types": "./dist/index.d.ts"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": {
+    "name": "lingbopro",
+    "url": "https://github.com/lingbopro"
+  },
+  "repository": "lingbopro/rollup-plugin-custom-import",
+  "homepage": "https://github.com/lingbopro/rollup-plugin-custom-import",
+  "bugs": "https://github.com/lingbopro/rollup-plugin-custom-import/issues",
+  "license": "MIT",
+  "keywords": [
+    "rollup",
+    "rollup-plugin",
+    "custom-import",
+    "import",
+    "string",
+    "stringify",
+    "template"
+  ],
+  "dependencies": {
+    "@rollup/pluginutils": "^5.1.4"
+  },
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^16.0.0",
+    "@rollup/plugin-typescript": "^12.1.2",
+    "rollup": "^4.34.8",
+    "tslib": "^2.8.1",
+    "typescript": "^5.7.3"
+  },
+  "peerDependencies": {
+    "rollup": "^1.20.0||^2.0.0||^3.0.0||^4.0.0"
+  },
+  "peerDependenciesMeta": {
+    "rollup": {
+      "optional": true
+    }
+  }
+}
