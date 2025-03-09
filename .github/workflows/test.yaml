@@ -1,0 +1,46 @@
+name: Test
+
+on:
+  workflow_call:
+    inputs:
+      node-version:
+        description: 'Node.js version'
+        type: string
+        required: false
+        default: 22.x
+      pnpm-version:
+        description: 'pnpm version'
+        type: string
+        required: false
+        default: 9.12.3
+      result-artifact-url:
+        description: 'Artifact URL of the build result (dist folder)'
+        type: string
+        required: true
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up pnpm ${{ inputs.pnpm-version }}
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ inputs.pnpm-version }}
+          run_install: false
+      - name: Set up Node.js ${{ inputs.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node-version }}
+          cache: pnpm
+      - name: Install dependencies
+        run: pnpm install
+      - name: Download build result
+        uses: actions/download-artifact@v4
+        with:
+          name: build-result
+          path: ./dist
+      - name: Run tests
+        run: pnpm test
