@@ -1,4 +1,4 @@
-import type { Options } from './index';
+import type { Options } from './plugin';
 import type { CreateFilter } from '@rollup/pluginutils';
 
 /**
