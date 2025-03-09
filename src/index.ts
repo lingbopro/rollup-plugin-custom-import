@@ -53,20 +53,11 @@ export function customImport(opts: Options): Plugin {
   return {
     name: 'custom-import',
 
-    load(id) {
-      if (filterFile(id, filter, options)) {
-        const content =
-          typeof options.content === 'function'
-            ? options.content(id, 'load')
-            : options.content;
-        return content;
-      }
-    },
     transform(code, id) {
       if (filterFile(id, filter, options)) {
         const content =
           typeof options.content === 'function'
-            ? options.content(id, 'transform', code)
+            ? options.content(id, code)
             : options.content;
         return content;
       }
