@@ -2,12 +2,12 @@
   "name": "rollup-plugin-custom-import",
   "version": "0.1.0",
   "description": "Customize the content of the imported module - not just the text",
-  "main": "./dist/index.cjs.js",
-  "module": "./dist/index.esm.js",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "exports": {
-    "require": "./dist/index.cjs.js",
-    "import": "./dist/index.esm.js",
+    "require": "./dist/index.cjs",
+    "import": "./dist/index.mjs",
     "types": "./dist/index.d.ts"
   },
   "files": [
