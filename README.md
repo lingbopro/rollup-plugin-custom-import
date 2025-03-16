@@ -109,6 +109,7 @@ Type: `String` | `(id: string, originalCode: string) => SourceDescription`
 Specifies the content of the imported module.
 
 For functions, the string value returned by the function will be passed to Rollup to change the content of the file
+The [plugin context](https://rollupjs.org/plugin-development/#plugin-context) will be `this` for the function
 
 > `SourceDescription` is a rollup interface (see more in [Rollup Docs](https://rollupjs.org/plugin-development/#transform)):
 >
@@ -215,15 +216,16 @@ export default div;`,
 ```js
 // rollup.config.js
 import { customImport } from 'rollup-plugin-custom-import';
-import { parse } from '@babel/parser';
 
 export default {
   // ...
   plugins: [
     customImport({
       include: ['**/*.js'],
-      content: (id, originalContent) => {
-        const ast = parse(originalContent);
+      content(id, originalContent) => {
+        // this.parse is a function provided by Rollup
+        // learn more at https://rollupjs.org/plugin-development/#plugin-context
+        const ast = this.parse(originalContent);
         const processed = doSomething();
         const yourCode = doAnotherThing();
         return {
