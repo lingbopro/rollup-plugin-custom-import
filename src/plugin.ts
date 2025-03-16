@@ -57,7 +57,7 @@ export function customImport(opts: Options): Plugin {
       if (filterFile(id, filter, options)) {
         const content =
           typeof options.content === 'function'
-            ? options.content(id, code)
+            ? options.content.call(this, id, code)
             : options.content;
         return content;
       }
