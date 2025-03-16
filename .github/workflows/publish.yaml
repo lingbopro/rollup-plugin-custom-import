@@ -62,7 +62,7 @@ jobs:
       - name: Publish to NPM
         id: publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           pnpm publish --access public
       - name: Publish to Github Release
