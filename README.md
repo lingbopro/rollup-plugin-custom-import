@@ -7,8 +7,6 @@
 
 ## Install
 
-WIP
-
 Using npm:
 
 ```console
