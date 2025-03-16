@@ -1,0 +1,78 @@
+name: Publish
+
+on:
+  workflow_dispatch:
+    inputs:
+      node-version:
+        description: 'Node.js version'
+        type: string
+        required: false
+        default: 22.x
+      pnpm-version:
+        description: 'pnpm version'
+        type: string
+        required: false
+        default: 9.12.3
+
+jobs:
+  build:
+    name: Build
+    uses: ./.github/workflows/build.yaml
+  publish:
+    name: Publish
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up pnpm ${{ inputs.pnpm-version }}
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ inputs.pnpm-version }}
+          run_install: false
+      - name: Set up Node.js ${{ inputs.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node-version }}
+          cache: pnpm
+      - name: Download build result
+        uses: actions/download-artifact@v4
+        with:
+          name: build-result
+          path: ./dist
+      - name: Extract version from package.json
+        id: extract-version
+        run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+      - name: Extract changelog for current version
+        id: extract-changelog
+        shell: bash
+        run: |
+          VERSION="${{ steps.extract-version.outputs.version }}"
+          # 使用perl提取指定版本的changelog内容
+          CHANGELOG=$(perl -0777 -ne "print \$1 if /## $VERSION(.*?)\n## /s" CHANGELOG.md)
+          # 处理初始版本没有后续版本的情况
+          if [ -z "$CHANGELOG" ]; then
+            CHANGELOG=$(perl -0777 -ne "print \$1 if /## $VERSION(.*)/s" CHANGELOG.md)
+          fi
+          echo "changelog<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGELOG" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+      - name: Publish to NPM
+        id: publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          pnpm publish --access public
+      - name: Publish to Github Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.extract-version.outputs.version }}
+          body: |
+            # v${{ steps.extract-version.outputs.version }}
+
+            ${{ steps.extract-changelog.outputs.changelog }}
+
+            [View full changelog](https://github.com/lingbopro/rollup-plugin-custom-import/blob/main/CHANGELOG.md) | 
+            [View on NPM](https://www.npmjs.com/package/rollup-plugin-custom-import/v/${{ steps.extract-version.outputs.version }})
