@@ -1,6 +1,7 @@
 import test from 'ava';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { readFile } from 'node:fs/promises';
 import { rollup } from 'rollup';
 import { customImport } from '../dist/index.mjs';
 import { execESM } from './helpers/eval.mjs';
@@ -76,4 +77,65 @@ test('throw error when importing a not existing file', async (t) => {
     return;
   }
   t.fail();
+});
+
+test('original content', async (t) => {
+  let originalContent;
+  const bundle = await rollup({
+    input: path.resolve(__dirname, 'fixtures/existing.js'),
+    plugins: [
+      customImport({
+        include: ['**/file.js'],
+        content: (id, original) => {
+          originalContent = original;
+          return {
+            code: original,
+          };
+        },
+      }),
+    ],
+  });
+  const realContent = await readFile(
+    path.resolve(__dirname, 'fixtures/file.js'),
+    'utf-8'
+  );
+  t.is(originalContent, realContent);
+});
+
+const pluginContextKeys = [
+  'addWatchFile',
+  'cache',
+  'debug',
+  'emitFile',
+  'error',
+  'getFileName',
+  'getModuleIds',
+  'getModuleInfo',
+  'getWatchFiles',
+  'info',
+  'load',
+  'meta',
+  'parse',
+  'resolve',
+  'setAssetSource',
+  'warn',
+  'getCombinedSourcemap',
+];
+test('plugin context', async (t) => {
+  let keys;
+  const bundle = await rollup({
+    input: path.resolve(__dirname, 'fixtures/existing.js'),
+    plugins: [
+      customImport({
+        include: ['**/file.js'],
+        content(id, original) {
+          keys = Object.keys(this);
+          return {
+            code: original,
+          };
+        },
+      }),
+    ],
+  });
+  t.deepEqual(keys, pluginContextKeys);
 });
