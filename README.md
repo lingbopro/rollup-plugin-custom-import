@@ -25,7 +25,7 @@ pnpm add --save-dev rollup-plugin-custom-import
 
 ## Usage
 
-Create a `rollup.config.js` [configuration file](https://www.rollupjs.org/guide/en/#configuration-files) and import the plugin:
+Create a `rollup.config.js` [configuration file](https://www.rollupjs.org/command-line-interface/#configuration-files) and import the plugin:
 
 ```js
 // rollup.config.js
@@ -51,7 +51,7 @@ export default {
 };
 ```
 
-Then call `rollup` either via the [CLI](https://www.rollupjs.org/guide/en/#command-line-reference) or the [API](https://www.rollupjs.org/guide/en/#javascript-api).
+Then call `rollup` either via the [CLI](https://www.rollupjs.org/command-line-interface/) or the [API](https://www.rollupjs.org/javascript-api/).
 
 ## Options
 
@@ -110,7 +110,7 @@ Specifies the content of the imported module.
 
 For functions, the string value returned by the function will be passed to Rollup to change the content of the file
 
-> `SourceDescription` is a rollup interface (see more in [Rollup Docs](https://cn.rollupjs.org/plugin-development/#transform)):
+> `SourceDescription` is a rollup interface (see more in [Rollup Docs](https://rollupjs.org/plugin-development/#transform)):
 >
 > ```typescript
 > interface SourceDescription extends Partial<PartialNull<ModuleOptions>> {
