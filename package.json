@@ -57,6 +57,7 @@
     }
   },
   "ava": {
+    "serial": true,
     "verbose": true
   }
 }
