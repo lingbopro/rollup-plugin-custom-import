@@ -110,6 +110,22 @@ Specifies the content of the imported module.
 
 For functions, the string value returned by the function will be passed to Rollup to change the content of the file
 
+> `SourceDescription` is a rollup interface (see more in [Rollup Docs](https://cn.rollupjs.org/plugin-development/#transform)):
+>
+> ```typescript
+> interface SourceDescription extends Partial<PartialNull<ModuleOptions>> {
+>   ast?: ProgramNode;
+>   code: string;
+>   map?: SourceMapInput;
+> }
+> interface ModuleOptions {
+>   attributes: Record<string, string>;
+>   meta: CustomPluginOptions;
+>   moduleSideEffects: boolean | 'no-treeshake';
+>   syntheticNamedExports: boolean | string;
+> }
+> ```
+
 **Examples:**
 
 ```js
