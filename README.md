@@ -1,5 +1,8 @@
 # rollup-plugin-custom-import
 
+[![NPM Version](https://img.shields.io/npm/v/rollup-plugin-custom-import?style=for-the-badge)](https://www.npmjs.com/package/rollup-plugin-custom-import)
+[![npm bundle size](https://img.shields.io/bundlephobia/min/rollup-plugin-custom-import?style=for-the-badge&label=bundle%20size)](https://packagephobia.com/result?p=rollup-plugin-custom-import)
+
 🍣 A Rollup plugin to customize the content of the imported module - not just the text
 
 ## Install
