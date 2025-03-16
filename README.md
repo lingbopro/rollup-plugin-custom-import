@@ -9,19 +9,11 @@
 
 WIP
 
-<!-- Using npm / yarn / pnpm:
+Using npm:
 
 ```console
 npm install --save-dev rollup-plugin-custom-import
 ```
-
-```console
-yarn add --dev rollup-plugin-custom-import
-```
-
-```console
-pnpm add --save-dev rollup-plugin-custom-import
-``` -->
 
 ## Usage
 
