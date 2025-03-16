@@ -17,7 +17,7 @@ test('import an existing file', async (t) => {
     plugins: [
       customImport({
         include: ['**/file.js'],
-        content: (id, hook) => {
+        content: (id, original) => {
           return {
             code: `export default 'FILE';`,
             map: null,
@@ -39,7 +39,7 @@ test('filter do not match', async (t) => {
     plugins: [
       customImport({
         include: ['not/matching.js'],
-        content: (id, hook) => {
+        content: (id, original) => {
           return {
             code: `export default 'FILE';`,
             map: null,
@@ -62,7 +62,7 @@ test('throw error when importing a not existing file', async (t) => {
       plugins: [
         customImport({
           include: ['**/file.js'],
-          content: (id, hook) => {
+          content: (id, original) => {
             return {
               code: `export default 'FILE';`,
               map: null,
