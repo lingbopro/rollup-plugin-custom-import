@@ -1,5 +1,5 @@
-import type { Options } from './plugin';
 import type { CreateFilter } from '@rollup/pluginutils';
+import type { Options } from './plugin';
 
 /**
  * Extracts the keys of optional properties from a type T.
