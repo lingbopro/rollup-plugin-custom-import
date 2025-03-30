@@ -1,7 +1,7 @@
 import type { Plugin } from 'rollup';
 import type { Optionals } from './utils';
 import type { FileContentSpecifier } from './file-content';
-import { filterFile } from './utils';
+import { filterFile, getFileContent } from './utils';
 import { createFilter } from '@rollup/pluginutils';
 
 /** The plugin options */
@@ -55,10 +55,7 @@ export function customImport(opts: Options): Plugin {
 
     transform(code, id) {
       if (filterFile(id, filter, options)) {
-        const content =
-          typeof options.content === 'function'
-            ? options.content.call(this, id, code)
-            : options.content;
+        const content = getFileContent(options.content, this, id, code);
         return content;
       }
     },
