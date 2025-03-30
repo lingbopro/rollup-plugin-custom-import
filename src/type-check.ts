@@ -5,7 +5,7 @@ export function checkOptions(target: Options, varName: string = 'Options') {
   if (typeof target.include !== 'function' && !Array.isArray(target.include)) {
     throw new TypeError(`${varName}.include must be a function or an array`);
   }
-  if (typeof target.exclude === 'function' && !Array.isArray(target.exclude)) {
+  if (typeof target.exclude !== 'function' && !Array.isArray(target.exclude)) {
     throw new TypeError(`${varName}.exclude must be a function or an array`);
   }
   checkFileContentSpecifier(target.content, `${varName}.content`);
@@ -29,7 +29,7 @@ export function checkFileContentSetterReturnValue(
       throw new TypeError(
         `SourceDescription returned by ${varName} must have a code property of type string`
       );
-  } else {
+  } else if (typeof target !== 'string') {
     throw new TypeError(`${varName} must return a string or an object`);
   }
 }
