@@ -3,6 +3,7 @@ import type { Optionals } from './utils';
 import type { FileContentSpecifier } from './file-content';
 import { filterFile, getFileContent } from './utils';
 import { createFilter } from '@rollup/pluginutils';
+import { checkOptions } from './type-check';
 
 /** The plugin options */
 export interface Options {
@@ -43,6 +44,7 @@ export function customImport(opts: Options): Plugin {
     defaultOptions,
     opts
   ) as Required<Options>;
+  checkOptions(options);
 
   const filter = createFilter(
     // make sure that the include and exclude options are arrays

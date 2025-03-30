@@ -2,6 +2,10 @@ import type { CreateFilter } from '@rollup/pluginutils';
 import { SourceDescription } from 'rollup';
 import { FileContentSpecifier } from './file-content';
 import type { Options } from './plugin';
+import {
+  checkFileContentSetterReturnValue,
+  checkFileContentSpecifier,
+} from './type-check';
 
 /**
  * Extracts the keys of optional properties from a type T.
@@ -40,6 +44,7 @@ export function getFileContent<self>(
   id: string,
   originalCode: string
 ): SourceDescription {
+  checkFileContentSpecifier(specifier);
   if (typeof specifier === 'string') {
     return {
       code: specifier,
@@ -47,23 +52,15 @@ export function getFileContent<self>(
     };
   } else if (typeof specifier === 'function') {
     const ret = specifier.call(_this, id, originalCode);
+    checkFileContentSetterReturnValue(ret);
     if (typeof ret === 'string') {
       return {
         code: ret,
         map: null,
       };
     } else if (typeof ret === 'object') {
-      if (typeof ret.code !== 'string')
-        throw new TypeError(
-          'The returned SourceDescription of the content function must have a code property'
-        );
       return ret;
-    } else
-      throw new TypeError(
-        'The return value of the content function must be string | SourceDescription'
-      );
-  } else
-    throw new TypeError(
-      'Invalid content specifier. It should be a string or a function'
-    );
+    }
+  }
+  throw new Error('Invalid FileContentSpecifier');
 }
