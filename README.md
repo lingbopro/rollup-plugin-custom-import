@@ -32,9 +32,7 @@ export default {
       // see behind for config details
       include: [''],
       content: (id, originalContent) => {
-        return {
-          code: `export default ${JSON.stringify(originalContent)};`,
-        };
+        return `export default ${JSON.stringify(originalContent)};`;
       },
     }),
   ],
@@ -124,8 +122,13 @@ The [plugin context](https://rollupjs.org/plugin-development/#plugin-context) wi
 ```
 
 ```js
+(id, originalCode) => `export default ${JSON.stringify(originalCode)};`;
+```
+
+```js
 (id, originalCode) => {{
   code: `export default ${JSON.stringify(originalCode)};`,
+  map: null,
 }}
 ```
 
@@ -142,11 +145,8 @@ export default {
   plugins: [
     customImport({
       include: ['**/*.txt'],
-      content: (id, originalContent) => {
-        return {
-          code: `export default ${JSON.stringify(originalContent)};`,
-        };
-      },
+      content: (id, originalContent) =>
+        `export default ${JSON.stringify(originalContent)};`,
     }),
   ],
 };
@@ -163,15 +163,12 @@ export default {
   plugins: [
     customImport({
       include: ['**/*.css'],
-      content: (id, originalContent) => {
-        return {
-          code: `const css = ${JSON.stringify(originalContent)};
+      content: (id, originalContent) =>
+        `const css = ${JSON.stringify(originalContent)};
 const styleEl = document.createElement('style');
 styleEl.innerHTML = css;
 document.head.appendChild(styleEl);
 export default css;`,
-        };
-      },
     }),
   ],
 };
@@ -188,14 +185,11 @@ export default {
   plugins: [
     customImport({
       include: ['**/*.html'],
-      content: (id, originalContent) => {
-        return {
-          code: `const html = ${JSON.stringify(originalContent)};
+      content: (id, originalContent) =>
+        `const html = ${JSON.stringify(originalContent)};
 const div = document.createElement('div');
 div.innerHTML = html;
 export default div;`,
-        };
-      },
     }),
   ],
 };
