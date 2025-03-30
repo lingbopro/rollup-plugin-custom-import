@@ -47,7 +47,12 @@ export function getFileContent<self>(
     };
   } else if (typeof specifier === 'function') {
     const ret = specifier.call(_this, id, originalCode);
-    if (typeof ret === 'object') {
+    if (typeof ret === 'string') {
+      return {
+        code: ret,
+        map: null,
+      };
+    } else if (typeof ret === 'object') {
       if (typeof ret.code !== 'string')
         throw new TypeError(
           'The returned SourceDescription of the content function must have a code property'
@@ -55,7 +60,7 @@ export function getFileContent<self>(
       return ret;
     } else
       throw new TypeError(
-        'The return value of the content function must be SourceDescription'
+        'The return value of the content function must be string | SourceDescription'
       );
   } else
     throw new TypeError(

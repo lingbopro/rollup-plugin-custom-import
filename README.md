@@ -59,7 +59,7 @@ export type FileContentSpecifier = string | FileContentSetter;
 export type FileContentSetter = (
   id: string,
   originalCode: string
-) => SourceDescription;
+) => string | SourceDescription;
 ```
 
 details:
@@ -93,12 +93,12 @@ Values are handled in the same way as [`include`](#include)
 
 ### `content`
 
-Type: `String` | `(id: string, originalCode: string) => SourceDescription`  
+Type: `String` | `(id: string, originalCode: string) => string | SourceDescription`  
 **Mandatory**
 
 Specifies the content of the imported module.
 
-For functions, the string value returned by the function will be passed to Rollup to change the content of the file
+For functions, the string or SourceDescription value returned by the function will be passed to Rollup to change the content of the file
 The [plugin context](https://rollupjs.org/plugin-development/#plugin-context) will be `this` for the function
 
 > `SourceDescription` is a rollup interface (see more in [Rollup Docs](https://rollupjs.org/plugin-development/#transform)):

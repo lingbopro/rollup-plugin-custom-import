@@ -17,4 +17,4 @@ export type FileContentSpecifier = string | FileContentSetter;
 export type FileContentSetter = (
   id: string,
   originalCode: string
-) => SourceDescription;
+) => string | SourceDescription;
