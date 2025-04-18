@@ -78,5 +78,5 @@ jobs:
 
             ${{ steps.extract-changelog.outputs.changelog }}
 
-            [View full changelog](https://github.com/lingbopro/rollup-plugin-custom-import/blob/main/CHANGELOG.md) | 
+            [View full changelog](https://github.com/lingbopro/rollup-plugin-custom-import/blob/main/CHANGELOG.md)
             [View on NPM](https://www.npmjs.com/package/rollup-plugin-custom-import/v/${{ steps.extract-version.outputs.version }})
