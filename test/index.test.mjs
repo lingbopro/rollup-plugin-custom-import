@@ -12,7 +12,24 @@ test('type', (t) => {
   t.is(typeof customImport, 'function');
 });
 
-test('import an existing file', async (t) => {
+test('import an existing file (string)', async (t) => {
+  const bundle = await rollup({
+    input: path.resolve(__dirname, 'fixtures/existing.js'),
+    plugins: [
+      customImport({
+        include: ['**/file.js'],
+        content: (id, original) => `export default 'FILE';`,
+      }),
+    ],
+  });
+  const output = await bundle.generate({ format: 'esm' });
+  // check bundle exported string
+  const exported = await execESM(output.output[0].code);
+  t.true(output.output[0].exports.includes('default'));
+  t.is(exported.default, 'FILE');
+});
+
+test('import an existing file (SourceDescription)', async (t) => {
   const bundle = await rollup({
     input: path.resolve(__dirname, 'fixtures/existing.js'),
     plugins: [
